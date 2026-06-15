@@ -43,8 +43,8 @@ if ( ! defined( 'AUTOCOMPLETE_GP_ABSPATH' ) ) {
 add_action( 'wp_enqueue_scripts', 'autocomplete_gp_google_scripts_enqueue' );
 function autocomplete_gp_google_scripts_enqueue() {
 	$google_api_key = autocomplete_gp_get_option( 'google_place_api' );
-	  wp_enqueue_script('autocompletegp-script',AUTOCOMPLETE_GP_ABSPATH_URL.'js/autocomplete.js',array('jquery-core','jquery'),'',true);
-   	  wp_enqueue_script('google-maps','https://maps.googleapis.com/maps/api/js?key='.(!empty($google_api_key) ? $google_api_key : 'AIzaSyAKkd9GnMadV3lpKNMsiKVAVcdZ98eDJ0g').'&libraries=places',array('jquery-core','jquery','autocompletegp-script'),'1.0',true);
+	  wp_enqueue_script('autocompletegp-script',AUTOCOMPLETE_GP_ABSPATH_URL.'js/autocomplete.js',array(),AUTOCOMPLETE_GP_VERSION,true);
+   	  wp_enqueue_script('google-maps','https://maps.googleapis.com/maps/api/js?key='.(!empty($google_api_key) ? $google_api_key : 'AIzaSyAKkd9GnMadV3lpKNMsiKVAVcdZ98eDJ0g').'&libraries=places',array('autocompletegp-script'),'1.0',true);
 }
 //
 add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'add_support_link' );
