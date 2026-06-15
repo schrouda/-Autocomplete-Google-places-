@@ -24,9 +24,30 @@
 	/**
 	 * Validate a Google Maps JS API key by loading the API client-side and
 	 * making a real Places request. Invalid keys trigger gm_authFailure.
+	 *
+	 * A single overall timeout always resolves the test, so it can never get
+	 * stuck (e.g. when an invalid key makes getPlacePredictions never call back).
 	 */
 	function testGoogleKey( key, cb ) {
+		let done = false;
+		const finish = ( ok, msg ) => {
+			if ( done ) {
+				return;
+			}
+			done = true;
+			clearTimeout( timer );
+			cb( ok, msg );
+		};
+
+		// Safety net: this is never cleared until a real result arrives.
+		const timer = setTimeout( function () {
+			finish( false, t( 'timeout', 'Timed out waiting for Google Maps.' ) );
+		}, 12000 );
+
 		const verify = () => {
+			if ( done ) {
+				return;
+			}
 			try {
 				if (
 					window.google &&
@@ -38,16 +59,16 @@
 					svc.getPlacePredictions( { input: 'Paris' }, function ( predictions, status ) {
 						const S = google.maps.places.PlacesServiceStatus;
 						if ( status === S.OK || status === S.ZERO_RESULTS ) {
-							cb( true, t( 'valid', 'Success! The API key works.' ) );
+							finish( true, t( 'valid', 'Success! The API key works.' ) );
 						} else {
-							cb( false, t( 'requestDenied', 'Google rejected the request' ) + ' (' + status + ')' );
+							finish( false, t( 'requestDenied', 'Google rejected the request' ) + ' (' + status + ')' );
 						}
 					} );
 				} else {
-					cb( false, t( 'noPlaces', 'Places library not available.' ) );
+					finish( false, t( 'noPlaces', 'Places library not available.' ) );
 				}
 			} catch ( e ) {
-				cb( false, e.message );
+				finish( false, e.message );
 			}
 		};
 
@@ -57,37 +78,19 @@
 			return;
 		}
 		if ( mapsRequested ) {
-			cb( false, t( 'reloadNote', 'Reload the page to test a different key.' ) );
+			finish( false, t( 'reloadNote', 'Reload the page to test a different key.' ) );
 			return;
 		}
 		mapsRequested = true;
 
-		let done = false;
-		const finish = ( ok, msg ) => {
-			if ( done ) {
-				return;
-			}
-			done = true;
-			clearTimeout( timer );
-			cb( ok, msg );
-		};
-		const timer = setTimeout( function () {
-			finish( false, t( 'timeout', 'Timed out waiting for Google Maps.' ) );
-		}, 10000 );
-
+		// Invalid/unauthorized keys fire gm_authFailure (usually within seconds).
 		window.gm_authFailure = function () {
 			finish( false, t( 'invalid', 'This API key is invalid or not authorized.' ) );
 		};
+		// On load, wait briefly so gm_authFailure can win the race for bad keys,
+		// then confirm the Places library with a real request for good keys.
 		window.__agpMapsReady = function () {
-			// Give gm_authFailure a brief chance to fire for invalid keys.
-			setTimeout( function () {
-				if ( done ) {
-					return;
-				}
-				clearTimeout( timer );
-				done = true;
-				verify();
-			}, 1200 );
+			setTimeout( verify, 1500 );
 		};
 
 		const s = document.createElement( 'script' );
