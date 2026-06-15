@@ -5,7 +5,8 @@
  * Description:       This plugin will help you to add autocomplete google addres features by using google place api, Auto-fill city and postcode when type address.
  * Version:           3.0.0
  * Requires at least: 5.6
- * Tested up to: 5.9
+ * Tested up to: 7.0
+ * Requires PHP:      7.4
  * Author:            Kais chrouda
  * Author URI:        https://lecoinapero.com/kaischrouda/
  * License:           GPL v2 or later
