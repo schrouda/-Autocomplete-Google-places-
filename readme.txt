@@ -3,7 +3,7 @@ Contributors: kaischrouda
 Tags: google address autocomplete, autocomplete google address, address autocomplete, autocomplete
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 3.0.0
+Stable tag: 3.1.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -49,6 +49,11 @@ The standard WooCommerce-style billing and shipping address fields. When an addr
 2. Address fields auto-filled after selecting a Google Places suggestion.
 
 == Changelog ==
+
+= 3.1.0 =
+* New: choose the autocomplete country scope from the admin settings. Default is Worldwide (works in all of Europe, USA, Canada, Japan and everywhere else); optionally restrict to up to 5 countries (Google's maximum).
+* New: redesigned admin settings screen built with React (WordPress' bundled wp.element), including a one-click "Test API key" button that verifies your Google Places key live.
+* Changed: replaced the bundled CMB2 library with a lightweight custom settings page (saved via the WordPress Settings API). This removes the vendored library entirely.
 
 = 3.0.0 =
 * Major release.

@@ -56,6 +56,9 @@ class AddressAutocomplete {
 		} );
 		this.autocomplete.addListener( 'place_changed', () => this.fillInAddress() );
 
+		// Apply the admin-configured country scope immediately.
+		this.setAutocompleteCountry();
+
 		addressField.addEventListener(
 			'focus',
 			() => this.setAutocompleteCountry(),
@@ -170,9 +173,18 @@ class AddressAutocomplete {
 		if ( ! this.autocomplete ) {
 			return;
 		}
-		const countryField = document.getElementById( this.fieldIds.country );
-		const country = countryField ? countryField.value : 'FR';
-		this.autocomplete.setComponentRestrictions( { country } );
+
+		// The admin "Country scope" setting drives the restriction. Worldwide
+		// (or an empty list) clears it; otherwise restrict to up to 5 countries
+		// (Google's maximum).
+		const config = window.AutocompleteGPConfig || {};
+		const countries = Array.isArray( config.countries ) ? config.countries : [];
+
+		if ( config.worldwide || countries.length === 0 ) {
+			this.autocomplete.setComponentRestrictions( { country: null } );
+		} else {
+			this.autocomplete.setComponentRestrictions( { country: countries.slice( 0, 5 ) } );
+		}
 	}
 }
 
