@@ -3,7 +3,7 @@
  * Plugin Name:       Autocomplete Google places 
  * Plugin URI:        https://lecoinapero.com/autocomplete-google-places/
  * Description:       This plugin will help you to add autocomplete google addres features by using google place api, Auto-fill city and postcode when type address.
- * Version:           1.3.4
+ * Version:           3.0.0
  * Requires at least: 5.6
  * Tested up to: 5.9
  * Author:            Kais chrouda
@@ -24,7 +24,7 @@ if ( !function_exists( 'add_action' ) ) {
 	exit;
 }
 
-define( 'AUTOCOMPLETE_GP_VERSION', '1.3.4' );
+define( 'AUTOCOMPLETE_GP_VERSION', '3.0.0' );
 
 // Including setting file
 include('admin_options.php');

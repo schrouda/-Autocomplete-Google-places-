@@ -35,5 +35,13 @@ No, It's totally free.
 2. This is the second screen shot
 == Changelog ==
 
+= 3.0.0 =
+* Major release.
+* Rewrote the front-end script in modern vanilla JavaScript (ES6); removed the jQuery dependency.
+* Security: upgraded the bundled CMB2 library to 2.12.0 (addresses CVE-2024-1792).
+* Security: removed the hardcoded Google Maps API key fallback; the Maps script now only loads when an API key is configured.
+* Security: the Google Maps URL is now built with rawurlencode() and escaped with esc_url_raw().
+* Hardening: moved the direct-access guard ahead of all includes, removed unused example files, and added a directory-listing guard to /js.
+
 = 1.3.4 =
 WordPress 5.9 version compatibility
