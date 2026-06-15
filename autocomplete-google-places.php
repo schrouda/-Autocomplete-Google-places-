@@ -61,12 +61,6 @@ function autocomplete_gp_google_scripts_enqueue() {
 	);
 	wp_enqueue_script( 'google-maps', esc_url_raw( $maps_src ), array( 'autocompletegp-script' ), '1.0', true );
 }
-//
-add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'add_support_link' );
-function add_support_link( $links ) {
-   $links[] = '<a href="https://www.lecoinapero.com/autocomplete-google-places">Support</a>';
-   return $links;
-}
 // Putting on wp head
 add_action('wp_head','autocomplete_gp_set_style');
 function autocomplete_gp_set_style(){

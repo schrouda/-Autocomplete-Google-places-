@@ -44,7 +44,7 @@ function autocomplete_gp_register_theme_options() {
 	$cmb_options->add_field( array(
 		'name' => __( 'API Key for Google Place', 'autocomplete_gp' ),
 		'desc' => __( '<ul><h3>To get your Google Api key? please follow these simple steps:</h3>
-         <li>1.Acess Google console: https://developers.google.com/maps/documentation/javascript/get-api-key.</li>
+         <li>1.Acess Google console: https://console.cloud.google.com/home/dashboard.</li>
          <li>2.Click on "Create Project" - create yours.</li>
          <li>3.Click on "Credentials" - click Create credentials > API key.</li>
          <li>4.Idicate "Api Key", then select HTTP referer,type your domain name. </li>
